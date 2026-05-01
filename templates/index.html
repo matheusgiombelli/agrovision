@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroVision AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0d0f0e;
+            --surface: #141716;
+            --border: #1f2421;
+            --green: #4ade80;
+            --green-dim: #1a3d28;
+            --text: #e2e8e4;
+            --muted: #6b7a70;
+            --mono: 'DM Mono', monospace;
+            --sans: 'DM Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-dot {
+            width: 10px; height: 10px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        header h1 {
+            font-family: var(--mono);
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: var(--text);
+        }
+
+        header span {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--muted);
+            margin-left: auto;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+
+        /* CARD */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-header h2 {
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .card-body { padding: 16px; }
+
+        /* FRAME */
+        #frame-img {
+            width: 100%;
+            border-radius: 6px;
+            display: block;
+            background: #0a0c0b;
+            min-height: 180px;
+            object-fit: cover;
+        }
+
+        /* TABELA */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 9px 10px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            font-size: 12px;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        .badge {
+            font-family: var(--mono);
+            font-size: 11px;
+            background: var(--green-dim);
+            color: var(--green);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        td a {
+            color: var(--muted);
+            text-decoration: none;
+            font-family: var(--mono);
+            font-size: 11px;
+        }
+        td a:hover { color: var(--green); }
+
+        /* CHAT */
+        .chat-card { margin-top: 0; }
+
+        .chat-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+
+        textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: var(--sans);
+            font-size: 13px;
+            padding: 12px;
+            resize: none;
+            min-height: 80px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        textarea:focus { border-color: var(--green); }
+        textarea::placeholder { color: var(--muted); }
+
+        .chat-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        button {
+            background: var(--green);
+            color: #0a1a10;
+            border: none;
+            border-radius: 7px;
+            padding: 9px 20px;
+            font-family: var(--mono);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: opacity 0.15s;
+        }
+        button:hover { opacity: 0.85; }
+        button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        #chat-status {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .chat-response {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 13px;
+            line-height: 1.7;
+            color: var(--text);
+            white-space: pre-wrap;
+            min-height: 80px;
+        }
+
+        .chat-response.empty { color: var(--muted); font-style: italic; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-dot"></div>
+    <h1>AGROVISION_AI</h1>
+    <span id="clock"></span>
+</header>
+
+<div class="grid">
+    <!-- Frame -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Feed ao vivo</h2>
+        </div>
+        <div class="card-body" style="padding:12px;">
+            <img id="frame-img" src="/frame" alt="Frame atual">
+        </div>
+    </div>
+
+    <!-- Eventos -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Eventos recentes</h2>
+        </div>
+        <div class="card-body" style="padding:0; overflow-y:auto; max-height:320px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Horário</th>
+                        <th>Tipo</th>
+                        <th>Conf.</th>
+                        <th>Img</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr>
+                        <td>{{ event.event_time }}</td>
+                        <td><span class="badge">{{ event.label }}</span></td>
+                        <td>{{ "%.2f"|format(event.confidence) }}</td>
+                        <td><a href="{{ event.image_path }}" target="_blank">↗</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Chat -->
+<div class="card chat-card">
+    <div class="card-header">
+        <h2>Agente AgroVision</h2>
+    </div>
+    <div class="chat-body">
+        <textarea id="chat-question" placeholder="Ex: avalie o risco dos eventos recentes..." rows="3"></textarea>
+        <div class="chat-actions">
+            <button id="send-btn" onclick="sendQuestion()">Enviar</button>
+            <span id="chat-status"></span>
+        </div>
+        <div class="chat-response empty" id="chat-response">A resposta do agente aparecerá aqui.</div>
+    </div>
+</div>
+
+<script>
+    // Relógio
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').textContent =
+            now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Atualiza frame a cada 2s
+    function refreshFrame() {
+        const img = document.getElementById('frame-img');
+        img.src = '/frame?' + Date.now();
+    }
+    setInterval(refreshFrame, 2000);
+
+    // Chat
+    async function sendQuestion() {
+        const question = document.getElementById('chat-question').value.trim();
+        const responseBox = document.getElementById('chat-response');
+        const statusEl = document.getElementById('chat-status');
+        const btn = document.getElementById('send-btn');
+
+        if (!question) return;
+
+        btn.disabled = true;
+        statusEl.textContent = 'consultando agente...';
+        responseBox.textContent = '';
+        responseBox.classList.remove('empty');
+
+        try {
+            const res = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: question })
+            });
+
+            if (!res.ok) throw new Error('Erro na requisição');
+
+            const data = await res.json();
+            responseBox.textContent = data.answer || 'Sem resposta.';
+            statusEl.textContent = 'resposta recebida';
+        } catch (e) {
+            responseBox.textContent = 'Não foi possível obter resposta do agente.';
+            statusEl.textContent = 'erro';
+            console.error(e);
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    // Enter para enviar (Shift+Enter = nova linha)
+    document.getElementById('chat-question').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendQuestion();
+        }
+    });
+</script>
+</body>
+</html>

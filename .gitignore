@@ -1,0 +1,5 @@
+.venv/
+static/captures/
+__pycache__/
+.env
+detections.db
