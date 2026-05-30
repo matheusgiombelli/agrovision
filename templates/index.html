@@ -5,312 +5,278 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgroVision AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['DM Mono', 'monospace'],
+                    },
+                    colors: {
+                        canvas: '#f4f6f3',
+                        card: '#ffffff',
+                        edge: '#e3e8e0',
+                        moss: '#3f6f3a',
+                        sprout: '#65a30d',
+                        bark: '#1c2b1a',
+                        clay: '#a8512a',
+                    },
+                    keyframes: {
+                        beat: { '0%,100%': { opacity: '1' }, '50%': { opacity: '0.3' } },
+                    },
+                    animation: { beat: 'beat 1.8s ease-in-out infinite' },
+                },
+            },
+        };
+    </script>
     <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        :root {
-            --bg: #0d0f0e;
-            --surface: #141716;
-            --border: #1f2421;
-            --green: #4ade80;
-            --green-dim: #1a3d28;
-            --text: #e2e8e4;
-            --muted: #6b7a70;
-            --mono: 'DM Mono', monospace;
-            --sans: 'DM Sans', sans-serif;
-        }
-
-        body {
-            font-family: var(--sans);
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            padding: 24px;
-        }
-
-        /* HEADER */
-        header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 28px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo-dot {
-            width: 10px; height: 10px;
-            background: var(--green);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--green);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        header h1 {
-            font-family: var(--mono);
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            color: var(--text);
-        }
-
-        header span {
-            font-family: var(--mono);
-            font-size: 12px;
-            color: var(--muted);
-            margin-left: auto;
-        }
-
-        /* GRID */
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-
-        @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
-
-        /* CARD */
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .card-header {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card-header h2 {
-            font-family: var(--mono);
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-
-        .card-body { padding: 16px; }
-
-        /* FRAME */
-        #frame-img {
-            width: 100%;
-            border-radius: 6px;
-            display: block;
-            background: #0a0c0b;
-            min-height: 180px;
-            object-fit: cover;
-        }
-
-        /* TABELA */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-
-        th {
-            font-family: var(--mono);
-            font-size: 10px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--muted);
-            padding: 8px 10px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-
-        td {
-            padding: 9px 10px;
-            border-bottom: 1px solid var(--border);
-            color: var(--text);
-            font-size: 12px;
-        }
-
-        tr:last-child td { border-bottom: none; }
-
-        .badge {
-            font-family: var(--mono);
-            font-size: 11px;
-            background: var(--green-dim);
-            color: var(--green);
-            padding: 2px 8px;
-            border-radius: 4px;
-            display: inline-block;
-        }
-
-        td a {
-            color: var(--muted);
-            text-decoration: none;
-            font-family: var(--mono);
-            font-size: 11px;
-        }
-        td a:hover { color: var(--green); }
-
-        /* CHAT */
-        .chat-card { margin-top: 0; }
-
-        .chat-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-
-        textarea {
-            width: 100%;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            font-family: var(--sans);
-            font-size: 13px;
-            padding: 12px;
-            resize: none;
-            min-height: 80px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        textarea:focus { border-color: var(--green); }
-        textarea::placeholder { color: var(--muted); }
-
-        .chat-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        button {
-            background: var(--green);
-            color: #0a1a10;
-            border: none;
-            border-radius: 7px;
-            padding: 9px 20px;
-            font-family: var(--mono);
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            cursor: pointer;
-            transition: opacity 0.15s;
-        }
-        button:hover { opacity: 0.85; }
-        button:disabled { opacity: 0.4; cursor: not-allowed; }
-
-        #chat-status {
-            font-family: var(--mono);
-            font-size: 11px;
-            color: var(--muted);
-        }
-
-        .chat-response {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 14px;
-            font-size: 13px;
-            line-height: 1.7;
-            color: var(--text);
-            white-space: pre-wrap;
-            min-height: 80px;
-        }
-
-        .chat-response.empty { color: var(--muted); font-style: italic; }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cdd6c8; border-radius: 9999px; }
     </style>
 </head>
-<body>
+<body class="min-h-screen bg-canvas font-sans text-bark selection:bg-sprout/25">
 
-<header>
-    <div class="logo-dot"></div>
-    <h1>AGROVISION_AI</h1>
-    <span id="clock"></span>
-</header>
+<div class="flex min-h-screen">
 
-<div class="grid">
-    <!-- Frame -->
-    <div class="card">
-        <div class="card-header">
-            <h2>Feed ao vivo</h2>
+    <!-- ── Sidebar ──────────────────────────────────────────────────────── -->
+    <aside class="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-edge bg-bark px-5 py-6 text-canvas md:flex">
+        <div class="flex items-center gap-2.5">
+            <span class="grid h-9 w-9 place-items-center rounded-xl bg-sprout text-bark">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s8-4.5 8-11.5A8 8 0 004 9.5C4 16.5 12 21 12 21z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 13V8" />
+                </svg>
+            </span>
+            <div>
+                <p class="font-mono text-sm font-medium leading-tight tracking-wide">AgroVision</p>
+                <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-sprout">AI · v1</p>
+            </div>
         </div>
-        <div class="card-body" style="padding:12px;">
-            <img id="frame-img" src="/frame" alt="Frame atual">
-        </div>
-    </div>
 
-    <!-- Eventos -->
-    <div class="card">
-        <div class="card-header">
-            <h2>Eventos recentes</h2>
-        </div>
-        <div class="card-body" style="padding:0; overflow-y:auto; max-height:320px;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Horário</th>
-                        <th>Tipo</th>
-                        <th>Conf.</th>
-                        <th>Img</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for event in events %}
-                    <tr>
-                        <td>{{ event.event_time }}</td>
-                        <td><span class="badge">{{ event.label }}</span></td>
-                        <td>{{ "%.2f"|format(event.confidence) }}</td>
-                        <td><a href="{{ event.image_path }}" target="_blank">↗</a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+        <nav class="mt-9 flex flex-col gap-1 text-sm">
+            <a class="flex items-center gap-3 rounded-lg bg-white/10 px-3 py-2 font-medium" href="#feed">
+                <span class="h-1.5 w-1.5 rounded-full bg-sprout"></span> Monitoramento
+            </a>
+            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-canvas/70 transition-colors hover:bg-white/5" href="#eventos">
+                <span class="h-1.5 w-1.5 rounded-full bg-canvas/30"></span> Eventos
+            </a>
+            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-canvas/70 transition-colors hover:bg-white/5" href="#clima">
+                <span class="h-1.5 w-1.5 rounded-full bg-canvas/30"></span> Clima
+            </a>
+            <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-canvas/70 transition-colors hover:bg-white/5" href="#agente">
+                <span class="h-1.5 w-1.5 rounded-full bg-canvas/30"></span> Agente IA
+            </a>
+        </nav>
 
-<!-- Chat -->
-<div class="card chat-card">
-    <div class="card-header">
-        <h2>Agente AgroVision</h2>
-    </div>
-    <div class="chat-body">
-        <textarea id="chat-question" placeholder="Ex: avalie o risco dos eventos recentes..." rows="3"></textarea>
-        <div class="chat-actions">
-            <button id="send-btn" onclick="sendQuestion()">Enviar</button>
-            <span id="chat-status"></span>
+        <div class="mt-auto rounded-xl border border-white/10 bg-white/5 p-3">
+            <p class="flex items-center gap-2 font-mono text-[11px] text-sprout">
+                <span class="h-2 w-2 rounded-full bg-sprout animate-beat"></span> sistema ativo
+            </p>
+            <p id="clock" class="mt-1 font-mono text-xs text-canvas/60"></p>
         </div>
-        <div class="chat-response empty" id="chat-response">A resposta do agente aparecerá aqui.</div>
+    </aside>
+
+    <!-- ── Conteúdo ─────────────────────────────────────────────────────── -->
+    <div class="flex-1">
+
+        <!-- Topbar mobile / título -->
+        <header class="flex items-center gap-3 border-b border-edge bg-card px-6 py-4">
+            <span class="grid h-8 w-8 place-items-center rounded-lg bg-sprout text-bark md:hidden">
+                <span class="h-2 w-2 rounded-full bg-bark animate-beat"></span>
+            </span>
+            <div>
+                <h1 class="text-lg font-semibold leading-tight">Painel de monitoramento</h1>
+                <p class="font-mono text-xs text-moss">visão computacional em tempo real · zona rural</p>
+            </div>
+            <span id="clock-top" class="ml-auto font-mono text-xs text-bark/50 md:hidden"></span>
+        </header>
+
+        <main class="space-y-6 p-6">
+
+            <!-- Métricas rápidas -->
+            <section class="grid gap-4 sm:grid-cols-3">
+                <div class="rounded-2xl border border-edge bg-card p-5">
+                    <p class="font-mono text-[11px] uppercase tracking-wider text-bark/50">Eventos recentes</p>
+                    <p class="mt-2 text-3xl font-semibold text-moss">{{ events|length }}</p>
+                    <p class="mt-1 text-xs text-bark/50">detecções registradas</p>
+                </div>
+                <div class="rounded-2xl border border-edge bg-card p-5">
+                    <p class="font-mono text-[11px] uppercase tracking-wider text-bark/50">Status do feed</p>
+                    <p class="mt-2 flex items-center gap-2 text-2xl font-semibold text-sprout">
+                        <span class="h-2.5 w-2.5 rounded-full bg-sprout animate-beat"></span> Ao vivo
+                    </p>
+                    <p class="mt-1 text-xs text-bark/50">captura contínua</p>
+                </div>
+                <div class="rounded-2xl border border-edge bg-card p-5" id="metric-weather">
+                    <p class="font-mono text-[11px] uppercase tracking-wider text-bark/50">Temperatura</p>
+                    <p class="mt-2 text-3xl font-semibold text-clay" id="metric-temp">—</p>
+                    <p class="mt-1 text-xs text-bark/50" id="metric-cond">aguardando clima…</p>
+                </div>
+            </section>
+
+            <!-- Feed + Eventos -->
+            <div class="grid gap-6 lg:grid-cols-5">
+
+                <!-- Feed ao vivo -->
+                <section id="feed" class="lg:col-span-3 overflow-hidden rounded-2xl border border-edge bg-card">
+                    <div class="flex items-center gap-2 border-b border-edge px-5 py-3.5">
+                        <h2 class="text-sm font-semibold">Feed ao vivo</h2>
+                        <span class="ml-auto flex items-center gap-1.5 rounded-full bg-sprout/15 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-moss">
+                            <span class="h-1.5 w-1.5 rounded-full bg-sprout animate-beat"></span> rec
+                        </span>
+                    </div>
+                    <div class="px-4 pt-4">
+                        <img id="frame-img" src="/frame" alt="Frame atual"
+                             class="block min-h-[240px] w-full rounded-xl border border-edge bg-bark object-cover">
+                    </div>
+                </section>
+
+                <!-- Eventos -->
+                <section id="eventos" class="lg:col-span-2 flex flex-col overflow-hidden rounded-2xl border border-edge bg-card">
+                    <div class="flex items-center gap-2 border-b border-edge px-5 py-3.5">
+                        <h2 class="text-sm font-semibold">Eventos recentes</h2>
+                        <span class="ml-auto font-mono text-[10px] text-bark/40">{{ events|length }} reg.</span>
+                    </div>
+                    <div class="flex-1 min-h-0 divide-y divide-edge overflow-y-auto">
+                        {% for event in events %}
+                        <div class="flex items-center gap-3 px-5 py-3 transition-colors hover:bg-canvas">
+                            <span class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-moss/10 font-mono text-[10px] uppercase text-moss">
+                                {{ event.label[:3] }}
+                            </span>
+                            <div class="min-w-0 flex-1">
+                                <p class="truncate text-sm font-medium">{{ event.label }}</p>
+                                <p class="font-mono text-[11px] text-bark/50">{{ event.event_time }}</p>
+                            </div>
+                            <span class="rounded-md bg-canvas px-2 py-1 font-mono text-[11px] text-moss">{{ "%.0f"|format(event.confidence * 100) }}%</span>
+                            <a href="{{ event.image_path }}" target="_blank"
+                               class="font-mono text-bark/40 transition-colors hover:text-sprout">↗</a>
+                        </div>
+                        {% endfor %}
+                        {% if not events %}
+                        <p class="px-5 py-8 text-center font-mono text-xs text-bark/40">Nenhum evento registrado ainda.</p>
+                        {% endif %}
+                    </div>
+                </section>
+            </div>
+
+            <!-- Clima -->
+            <section id="clima" class="overflow-hidden rounded-2xl border border-edge bg-card">
+                <div class="flex items-center gap-2 border-b border-edge px-5 py-3.5">
+                    <h2 class="text-sm font-semibold">Condições climáticas</h2>
+                    <span id="weather-updated" class="ml-auto font-mono text-[10px] text-bark/40"></span>
+                </div>
+                <div class="p-5" id="weather-body">
+                    <p class="font-mono text-xs text-bark/40">Carregando dados climáticos…</p>
+                </div>
+            </section>
+
+            <!-- Agente -->
+            <section id="agente" class="overflow-hidden rounded-2xl border border-edge bg-card">
+                <div class="flex items-center gap-2 border-b border-edge px-5 py-3.5">
+                    <span class="grid h-7 w-7 place-items-center rounded-lg bg-moss/10 text-moss">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+                        </svg>
+                    </span>
+                    <h2 class="text-sm font-semibold">Agente AgroVision</h2>
+                </div>
+                <div class="flex flex-col gap-4 p-5">
+                    <textarea id="chat-question" rows="3"
+                              placeholder="Ex: avalie o risco dos eventos recentes considerando o clima…"
+                              class="w-full resize-none rounded-xl border border-edge bg-canvas px-4 py-3 text-sm text-bark outline-none transition-colors placeholder:text-bark/40 focus:border-sprout focus:bg-card"></textarea>
+                    <div class="flex items-center gap-4">
+                        <button id="send-btn" onclick="sendQuestion()"
+                                class="rounded-lg bg-moss px-6 py-2.5 text-sm font-medium text-canvas transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40">
+                            Perguntar
+                        </button>
+                        <span id="chat-status" class="font-mono text-[11px] text-bark/40"></span>
+                    </div>
+                    <div id="chat-response"
+                         class="min-h-[84px] whitespace-pre-wrap rounded-xl border border-dashed border-edge bg-canvas p-4 text-sm italic leading-7 text-bark/40">
+                        A resposta do agente aparecerá aqui.
+                    </div>
+                </div>
+            </section>
+
+            <footer class="pb-2 text-center font-mono text-[10px] uppercase tracking-wider text-bark/30">
+                AgroVision AI · monitoramento por visão computacional
+            </footer>
+        </main>
     </div>
 </div>
 
 <script>
-    // Relógio
+    // ── Relógio ──────────────────────────────────────────────────────────────
     function updateClock() {
-        const now = new Date();
-        document.getElementById('clock').textContent =
-            now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const t = new Date().toLocaleTimeString('pt-BR', {
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+        document.getElementById('clock').textContent = t;
+        const top = document.getElementById('clock-top');
+        if (top) top.textContent = t;
     }
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Atualiza frame a cada 2s
+    // ── Frame ao vivo ────────────────────────────────────────────────────────
     function refreshFrame() {
-        const img = document.getElementById('frame-img');
-        img.src = '/frame?' + Date.now();
+        document.getElementById('frame-img').src = '/frame?' + Date.now();
     }
     setInterval(refreshFrame, 2000);
 
-    // Chat
+    // ── Clima ────────────────────────────────────────────────────────────────
+    async function loadWeather() {
+        const body = document.getElementById('weather-body');
+        const updated = document.getElementById('weather-updated');
+
+        try {
+            const res = await fetch('/weather');
+            const data = await res.json();
+
+            if (data.error) {
+                body.innerHTML = `<p class="font-mono text-xs text-bark/40">${data.error}</p>`;
+                return;
+            }
+
+            const icon = data.is_day ? '☀️' : '🌙';
+            const rainRisk = data.rain_probability_pct >= 70 ? '⚠️ ' : '';
+
+            // Atualiza o card de métrica do topo
+            document.getElementById('metric-temp').textContent = `${data.temperature_c}°C`;
+            document.getElementById('metric-cond').textContent = data.weather_description;
+
+            const card = (label, value, sub, big = true) => `
+                <div class="rounded-xl border border-edge bg-canvas p-4">
+                    <p class="font-mono text-[10px] uppercase tracking-wider text-bark/50">${label}</p>
+                    <p class="mt-1 font-mono ${big ? 'text-2xl' : 'text-base'} font-medium text-moss">${value}</p>
+                    <p class="mt-0.5 text-[11px] text-bark/50">${sub}</p>
+                </div>`;
+
+            body.innerHTML = `
+                <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    ${card('Temperatura', `${data.temperature_c}°C`, `${icon} ${data.is_day ? 'Diurno' : 'Noturno'}`)}
+                    ${card('Vento', `${data.wind_speed_kmh}`, 'km/h')}
+                    ${card('Chuva', `${data.rain_probability_pct}%`, `${rainRisk}probabilidade (hora atual)`)}
+                    ${card('Condição', data.weather_description, `código WMO ${data.weather_code}`, false)}
+                </div>
+            `;
+
+            if (data.fetched_at) updated.textContent = `atualizado às ${data.fetched_at}`;
+
+        } catch (e) {
+            body.innerHTML = '<p class="font-mono text-xs text-bark/40">Erro ao carregar dados climáticos.</p>';
+            console.error('[weather]', e);
+        }
+    }
+
+    loadWeather();
+    setInterval(loadWeather, 600000); // a cada 10 minutos
+
+    // ── Chat ─────────────────────────────────────────────────────────────────
     async function sendQuestion() {
         const question = document.getElementById('chat-question').value.trim();
         const responseBox = document.getElementById('chat-response');
@@ -320,18 +286,19 @@
         if (!question) return;
 
         btn.disabled = true;
-        statusEl.textContent = 'consultando agente...';
+        statusEl.textContent = 'consultando agente…';
         responseBox.textContent = '';
-        responseBox.classList.remove('empty');
+        responseBox.classList.remove('italic', 'text-bark/40', 'border-dashed');
+        responseBox.classList.add('text-bark');
 
         try {
             const res = await fetch('/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: question })
+                body: JSON.stringify({ message: question }),
             });
 
-            if (!res.ok) throw new Error('Erro na requisição');
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
             const data = await res.json();
             responseBox.textContent = data.answer || 'Sem resposta.';
@@ -339,13 +306,13 @@
         } catch (e) {
             responseBox.textContent = 'Não foi possível obter resposta do agente.';
             statusEl.textContent = 'erro';
-            console.error(e);
+            console.error('[chat]', e);
         } finally {
             btn.disabled = false;
         }
     }
 
-    // Enter para enviar (Shift+Enter = nova linha)
+    // Enter envia (Shift+Enter = nova linha)
     document.getElementById('chat-question').addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();

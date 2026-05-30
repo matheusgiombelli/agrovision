@@ -1,5 +1,9 @@
-.venv/
-static/captures/
-__pycache__/
 .env
+__pycache__/
+*.pyc
+*.pyo
 detections.db
+static/captures/
+*.pt
+.venv/
+venv/
